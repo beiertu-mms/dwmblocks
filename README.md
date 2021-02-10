@@ -1,15 +1,26 @@
 # dwmblocks
-Modular status bar for dwm written in c.
-# usage
-To use dwmblocks first run 'make' and then install it with 'sudo make install'.
-After that you can put dwmblocks in your xinitrc or other startup script to have it start with dwm.
-# modifying blocks
-The statusbar is made from text output from commandline programs.
-Blocks are added and removed by editing the blocks.h header file.
-By default the blocks.h header file is created the first time you run make which copies the default config from blocks.def.h.
-This is so you can edit your status bar commands and they will not get overwritten in a future update.
-# patches
-Here are some patches to dwmblocks that add features that I either don't want to merge in, or that require a dwm patch to work.
-I do not maintain these but I will take pull requests to update them.
-<br>
-<a href=https://gist.github.com/IGeraGera/e4a5583b91b3eec2e81fdceb44dea717>dwmblocks-statuscmd-b6b0be4.diff</a>
+![GitHub](https://img.shields.io/github/license/beiertu-mms/dwmblocks)
+
+A fork of [torrinfail's modular status bar][1] for [dwm][2] written in C.
+
+## Installation
+Run
+```sh
+sudo make clean install
+```
+
+## Usage
+Add `dwmblocks 2>&1 >/dev/null &` to **.xinitrc** before `exec dwm`.
+
+## Modifying blocks
+The statusbar is made from text output from commandline programs.  
+Blocks are added and removed by editing the **blocks.def.h** header file.  
+After modifying that file, remove the **blocks.h** file  
+and run `make clean install` again to apply the changes.  
+
+## License
+This software is distributed under the terms of [ISC license][3].  
+
+[1]: https://github.com/torrinfail/dwmblocks
+[2]: https://dwm.suckless.org/
+[3]: ./LICENSE
