@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+#===============================================================================
+#
+#          FILE: volume.sh
+#
+#         USAGE: ./volume.sh
+#
+#   DESCRIPTION: Change the volume, signal dwmblocks with signal 10
+#                and print out the current volume percentage.
+#
+#       OPTIONS: up - turn volume up by 10%
+#                down - turn volume down by 10%
+#  REQUIREMENTS: amixer, dwmblocks, grep, awk, uniq, sed
+#        AUTHOR: tung beier
+#       CREATED: 16 February 2021 20:19 CET
+#===============================================================================
+
+set -o errexit  # Exit when a command fails
+                # Use || true if a command is allowed to fail
+set -o nounset  # Treat unset variables as an error
+set -o pipefail # Exit when a command in a pipeline fails
+
+if [[ "$#" -eq 1 ]]; then
+  case $1 in
+    up) amixer -q set Master 10%+ ;;
+    down) amixer -q set Master 10%- ;;
+  esac
+
+  pkill -RTMIN+10 dwmblocks
+fi
+
+VOLUME=$(amixer get Master | grep % | awk '{print $5}' | uniq | sed 's/[^0-9]//g')
+ICON="🔉"
+if [[ "$VOLUME" -eq "0" ]]; then
+  ICON="🔇"
+elif [[ "$VOLUME" -gt "70" ]]; then
+  ICON="🔊"
+elif [[ "$VOLUME" -lt "35" ]]; then
+  ICON="🔈"
+fi
+
+echo "${ICON} ${VOLUME}%"
+
