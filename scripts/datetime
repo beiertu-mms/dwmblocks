@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+#===============================================================================
+#
+#          FILE: datetime
+#
+#         USAGE: ./datetime
+#
+#   DESCRIPTION: Print date time information.
+#
+#        AUTHOR: tung beier
+#       CREATED: 16 February 2021 20:07 CET
+#===============================================================================
+
+set -o errexit  # Exit when a command fails
+                # Use || true if a command is allowed to fail
+set -o nounset  # Treat unset variables as an error
+set -o pipefail # Exit when a command in a pipeline fails
+
+echo "$(date '+%H:%M:%S %A %d %b %Y')"
+
