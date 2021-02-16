@@ -1,7 +1,7 @@
 static const Block blocks[] = {
 	/*	Icon	Command								Interval	Signal	*/
-	{	"🕓",		"datetime",						1,			0	},
 	{	"",			"volume",						0,			10	},
+	{	"🕓 ",		"datetime",						1,			0	},
 };
 
 // Sets delimeter between status commands.
