@@ -20,24 +20,23 @@ set -o errexit  # Exit when a command fails
 set -o nounset  # Treat unset variables as an error
 set -o pipefail # Exit when a command in a pipeline fails
 
-if [[ "$#" -eq 1 ]]; then
+function getVolumeLevel() {
+    local VOLUME_LEVEL=$(amixer get $1 | grep % | awk '{print $5}' | uniq | sed 's/[^0-9]//g')
+    echo ${VOLUME_LEVEL}
+}
+
+function changeVolumeLevel() {
   case $1 in
-    up) amixer -q set Master 10%+ ;;
-    down) amixer -q set Master 10%- ;;
+    up) amixer -q sset Master 10%+ ;;
+    down) amixer -q sset Master 10%- ;;
   esac
 
   pkill -RTMIN+10 dwmblocks
+}
+
+if [[ "$#" -eq 1 ]]; then
+    changeVolumeLevel $1
 fi
 
-VOLUME=$(amixer get Master | grep % | awk '{print $5}' | uniq | sed 's/[^0-9]//g')
-ICON="🔉"
-if [[ "$VOLUME" -eq "0" ]]; then
-  ICON="🔇"
-elif [[ "$VOLUME" -gt "70" ]]; then
-  ICON="🔊"
-elif [[ "$VOLUME" -lt "35" ]]; then
-  ICON="🔈"
-fi
-
-echo "${ICON} ${VOLUME}%"
+echo "Mic $(getVolumeLevel Capture)% | Vol $(getVolumeLevel Master)%"
 
