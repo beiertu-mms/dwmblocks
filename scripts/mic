@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 #===============================================================================
 #
-#          FILE: volume.sh
+#          FILE: mic
 #
-#         USAGE: ./volume.sh
+#         USAGE: ./mic
 #
-#   DESCRIPTION: Change the volume, signal dwmblocks with signal 10
+#   DESCRIPTION: Change the mic input, signal dwmblocks with signal 11
 #                and print out the current volume percentage.
 #
-#       OPTIONS: up - turn volume up by 10%
-#                down - turn volume down by 10%
+#       OPTIONS: up - increase input by 10%
+#                down - decrease input by 10%
 #  REQUIREMENTS: amixer, dwmblocks, grep, awk, uniq, sed
 #        AUTHOR: tung beier
-#       CREATED: 16 February 2021 20:19 CET
+#       CREATED: 11 March 2021 20:31 CET
 #===============================================================================
 
 set -o errexit  # Exit when a command fails
@@ -20,23 +20,23 @@ set -o errexit  # Exit when a command fails
 set -o nounset  # Treat unset variables as an error
 set -o pipefail # Exit when a command in a pipeline fails
 
-function getVolumeLevel() {
-    local VOLUME_LEVEL=$(amixer get $1 | grep % | awk '{print $5}' | uniq | sed 's/[^0-9]//g')
-    echo ${VOLUME_LEVEL}
+function getInputLevel() {
+    local INPUT_LEVEL=$(amixer get $1 | grep % | awk '{print $5}' | uniq | sed 's/[^0-9]//g')
+    echo ${INPUT_LEVEL}
 }
 
-function changeVolumeLevel() {
+function changeInputLevel() {
   case $1 in
-    up) amixer -q sset Master 10%+ ;;
-    down) amixer -q sset Master 10%- ;;
+    up) amixer -q sset Capture 10%+ ;;
+    down) amixer -q sset Capture 10%- ;;
   esac
 
-  pkill -RTMIN+10 dwmblocks
+  pkill -RTMIN+11 dwmblocks
 }
 
 if [[ "$#" -eq 1 ]]; then
-    changeVolumeLevel $1
+    changeInputLevel $1
 fi
 
-echo "$(getVolumeLevel Master)%"
+echo "$(getInputLevel Capture)%"
 
