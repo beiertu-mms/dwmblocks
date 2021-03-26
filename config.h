@@ -1,6 +1,6 @@
 static const Block blocks[] = {
 	/* Icon     Command               Interval   Signal */
-	{  "Java",  "java-version",       0,         12	},
+	{  "jdk",   "java-version",       0,         12	},
 	{  " ",    "volume",             0,         10	},
 	{  " ",    "mic",                0,         11	},
 	{  " ",    "datetime",           1,         0	},
