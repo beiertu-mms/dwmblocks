@@ -1,10 +1,11 @@
 static const Block blocks[] = {
 	/* Icon     Command               Interval   Signal */
-	{  "jdk",   "java-version",       0,         12	},
+	{  " ",    "system-status",      5,         0	},
+	{  " ",    "java-version",       0,         12	},
 	{  " ",    "volume",             0,         10	},
 	{  " ",    "mic",                0,         11	},
 	{  " ",    "datetime",           1,         0	},
-	{  " ",    "echo dwm-6.2",       0,         0	},
+	{  " ",    "echo dwm-6.2 ",      0,         0	},
 };
 
 //sets delimiter between status commands. NULL character ('\0') means no delimiter.
