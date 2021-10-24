@@ -1,0 +1,23 @@
+name: Sync Fork
+
+on:
+  schedule:
+    - cron: '0 7 * * *' # every day at 07:00
+
+  workflow_dispatch:    # on button click
+
+jobs:
+  sync-fork:
+    name: Sync fork
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: tgymnich/fork-sync@v1.4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          owner: torrinfail
+          head: master
+          base: upstream
+          merge_method: rebase
+          pr_title: 'Sync with upstream'
+
