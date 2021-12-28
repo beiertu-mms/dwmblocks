@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
 #===============================================================================
 #
-#          FILE: test.sh
+#          FILE: system-status
 #
-#         USAGE: ./test.sh
+#         USAGE: ./system-status
 #
-#   DESCRIPTION:
+#   DESCRIPTION: Print ram, cpu and gpu information.
 #
-#       OPTIONS: ---
-#  REQUIREMENTS: ---
-#         NOTES: ---
+#  REQUIREMENTS: sed, free, awk (optional: nvidia-smi, grep, cut)
 #        AUTHOR: tung beier
 #       CREATED: 26 September 2021 21:42 CEST
 #===============================================================================
@@ -20,8 +18,14 @@ set -o nounset  # Treat unset variables as an error
 set -o pipefail # Exit when a command in a pipeline fails
 
 cpu_temp=$(sed 's/000$/°C/' /sys/class/thermal/thermal_zone0/temp)
-gpu_temp=$(nvidia-smi -q -d temperature | grep 'GPU Current Temp' | cut -d':' -f2)
 ram=$(free -h | awk '(NR==2){ print $3 }')
 
-echo "${ram} - ${cpu_temp} -${gpu_temp}"
+gpu_temp=''
+if command -v nvidia-smi 2&> /dev/null; then
+    gpu_temp=$(nvidia-smi -q -d temperature | grep 'GPU Current Temp' | cut -d':' -f2)
+    echo "${ram} - ${cpu_temp} -${gpu_temp}"
+else
+    echo "${ram} - ${cpu_temp}"
+fi
+
 

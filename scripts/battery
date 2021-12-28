@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+#===============================================================================
+#
+#          FILE: battery
+#
+#         USAGE: ./battery
+#
+#   DESCRIPTION: Print the battery status.
+#
+#        AUTHOR: tung beier
+#       CREATED: 13 March 2021 20:44 CET
+#===============================================================================
+
+set -o errexit  # Exit when a command fails
+                # Use || true if a command is allowed to fail
+set -o nounset  # Treat unset variables as an error
+set -o pipefail # Exit when a command in a pipeline fails
+
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME: _get_battery_status
+#   DESCRIPTION: Print the battery information based on it capacity and status
+#    PARAMETERS: $1 = Battery number (either 0 or 1)
+#       RETURNS: The battery information with its status and capacity in prozent
+#-------------------------------------------------------------------------------
+_get_battery_status() {
+  local CAPACITY=$(cat /sys/class/power_supply/BAT${1}/capacity)
+  local STATUS=$(cat /sys/class/power_supply/BAT${1}/status)
+
+  echo "${CAPACITY}%(${STATUS:0:1})"
+}
+
+#---  SCRIPT LOGIC  ------------------------------------------------------------
+echo "[0] $(_get_battery_status 0) [1] $(_get_battery_status 1)"
+
